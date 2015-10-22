@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+
+process.title = 'xsm';
+
+var args = process.argv
+var gruntfile = args[2]
+
+if (!gruntfile || gruntfile === '--help' || gruntfile === '-h') {
+	console.log(
+	'Usage:\n' +
+	'xsm <gruntfile-config-key in xsmfile.js> <grunt-task>\n' +
+	'\n' +
+	'Example of xsmfile.js:\n' +
+	'==========\n' +
+	'module.exports = {\n' +
+	'  order: "grunt/order/gruntfile.js" \n' +
+	'}\n' +
+	'=========='
+	)
+	return
+}
+
+var basedir = process.cwd();
+try {
+	var GruntfileConfig = require(require('path').resolve(basedir, 'xsmfile.js'))
+} catch (e) {
+	GruntfileConfig = {}
+}
+
+gruntfile = GruntfileConfig[gruntfile] || 'gruntfile.js'
+var grunttask = args[3] || 'default'
+
+require('child_process').spawn(
+	process.platform === "win32" ? 'grunt.cmd' : 'grunt', [
+	'--gruntfile', gruntfile,
+	'--base', './',
+	grunttask
+], {
+	stdio: 'inherit'
+})
