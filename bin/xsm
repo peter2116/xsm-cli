@@ -15,7 +15,10 @@ if (!gruntfile || gruntfile === '--help' || gruntfile === '-h') {
 	'module.exports = {\n' +
 	'  order: "grunt/order/gruntfile.js" \n' +
 	'}\n' +
-	'=========='
+	'==========\n' +
+	'\n' +
+	'For more info, go to:\n' +
+	'https://github.com/xsm-ue/xsm-cli#readme'
 	)
 	return
 }
