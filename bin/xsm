@@ -2,6 +2,10 @@
 
 process.title = 'xsm'
 
+var _ = '  ' // text indent
+var DefaultGruntFile = 'gruntfile.js'
+var DefaultGruntTask = 'default'
+
 var args = process.argv
 var gruntfile = args[2]
 
@@ -19,9 +23,6 @@ try {
 	console.error('xsmfile.js not found.')
 	GruntfileConfig = {}
 }
-
-var DefaultGruntFile = 'gruntfile.js'
-var DefaultGruntTask = 'default'
 
 if (!gruntfile) {
 	console.error('no grunt-file arg, use default [' + DefaultGruntFile + ']')
@@ -47,7 +48,6 @@ require('child_process').spawn(
 	stdio: 'inherit'
 })
 
-var _ = '  ' // text indent
 function usage() {
 	console.log([
 		'Usage:',
