@@ -29,13 +29,22 @@ if (!fs.existsSync(xsmfile)) {
 	console.log('try use "' + DefaultGruntFile + '"')
 	gruntfile = DefaultGruntFile
 } else {
-	try {
-		GruntfileConfig = require(xsmfile)
-		gruntfile = GruntfileConfig[gruntfile]
-	} catch (e) {
-		console.error('xsmfile.js is not a valid CommonJS file.')
-		console.error(e)
-		process.exit(1)
+	if (!gruntfile) {
+		console.error('no grunt-file arg, use default file "' + DefaultGruntFile + '"')
+		gruntfile = DefaultGruntFile
+	} else {
+		try {
+			GruntfileConfig = require(xsmfile)
+			gruntfile = GruntfileConfig[gruntfile]
+		} catch (e) {
+			console.error('xsmfile.js is not a valid CommonJS file.')
+			console.error(e)
+			process.exit(1)
+		}
+		if (!gruntfile) {
+			console.error('no such gruntfile config in xsmfile')
+			process.exit(1)
+		}
 	}
 }
 
