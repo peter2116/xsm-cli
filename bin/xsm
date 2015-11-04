@@ -47,7 +47,7 @@ require('child_process').spawn(
 	stdio: 'inherit'
 })
 
-var _ = '\t' // text indent
+var _ = '  ' // text indent
 function usage() {
 	console.log([
 		'Usage:',
