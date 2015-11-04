@@ -49,7 +49,7 @@ if (!fs.existsSync(xsmfile)) {
 }
 
 if (!fs.existsSync(gruntfile)) {
-	console.error('gruntfile not existed at:\n' + gruntfile)
+	console.error('gruntfile not existed at:\n"' + gruntfile + '"')
 	process.exit(1)
 }
 
