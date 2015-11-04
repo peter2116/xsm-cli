@@ -4,7 +4,6 @@ var fs = require('fs')
 
 process.title = 'xsm'
 
-var _ = '  ' // text indent
 var XSM_FILE = 'xsmfile.js'
 var DefaultGruntFile = 'gruntfile.js'
 var DefaultGruntTask = 'default'
@@ -78,23 +77,23 @@ function usage() {
 		'Usage:',
 		'xsm [grunt-file [grunt-task]]',
 		'',
-		'<param>',
-		'grunt-file:',
-		_ + 'sub gruntfile configed in xsmfile.js',
-		_ + 'if not given, use "Gruntfile.js"',
-		'grunt-task:',
-		_ + 'grunt task in sub gruntfile',
-		_ + 'if not given, use "default"',
+		'<grunt-file>',
+		'  sub gruntfile configed in xsmfile.js',
+		'  if not given, use "Gruntfile.js"',
+		'<grunt-task>',
+		'  grunt task in sub gruntfile',
+		'  if not given, use "default"',
 		'',
-		'<Example>',
-		'xsmfile.js:',
-		_ + 'module.exports = {',
-		_ + '  order: "grunt/order/gruntfile.js"',
-		_ + '}',
+		'EXAMPLE',
 		'cmd:',
-		_ + 'xsm order uglify',
+		'  xsm order uglify',
+		'xsmfile.js:',
+		'  module.exports = {',
+		'    order: "grunt/order/gruntfile.js"',
+		'  }',
+		'result:',
+		'  run > grunt --gruntfile grunt/order/gruntfile.js --base ./ uglify'
 		'',
-		'For more info, go to:',
-		'https://github.com/xsm-ue/xsm-cli#readme'
+		'https://github.com/xsm-ue/xsm-cli'
 	].join('\n'))
 }
