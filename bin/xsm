@@ -89,7 +89,7 @@ function usage() {
 		'<Example>',
 		'xsmfile.js:',
 		_ + 'module.exports = {',
-		_ + _ + 'order: "grunt/order/gruntfile.js"',
+		_ + '  order: "grunt/order/gruntfile.js"',
 		_ + '}',
 		'cmd:',
 		_ + 'xsm order uglify',
