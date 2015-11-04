@@ -1,6 +1,6 @@
 {
   "name": "xsm-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Used to spawn a 'grunt' with subfolder's gruntfile by config.",
   "main": "index.js",
   "repository": {
@@ -15,6 +15,6 @@
   "bin": {
     "xsm": "bin/xsm"
   },
-  "preferGlobal": true
+  "preferGlobal": true,
   "homepage": "https://github.com/xsm-ue/xsm-cli#readme"
 }

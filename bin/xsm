@@ -1,38 +1,43 @@
 #!/usr/bin/env node
 
-process.title = 'xsm';
+process.title = 'xsm'
 
 var args = process.argv
 var gruntfile = args[2]
 
 if (!gruntfile || gruntfile === '--help' || gruntfile === '-h') {
-	console.log(
-	'Usage:\n' +
-	'xsm <gruntfile-config-key in xsmfile.js> <grunt-task>\n' +
-	'\n' +
-	'Example of xsmfile.js:\n' +
-	'==========\n' +
-	'module.exports = {\n' +
-	'  order: "grunt/order/gruntfile.js" \n' +
-	'}\n' +
-	'==========\n' +
-	'\n' +
-	'For more info, go to:\n' +
-	'https://github.com/xsm-ue/xsm-cli#readme'
-	)
-	return
+	return usage()
 }
 
-var basedir = process.cwd();
+var basedir = process.cwd()
+var xsmfile = require('path').resolve(basedir, 'xsmfile.js')
+var GruntfileConfig
+
 try {
-	var GruntfileConfig = require(require('path').resolve(basedir, 'xsmfile.js'))
+	GruntfileConfig = require(xsmfile)
 } catch (e) {
+	console.error('xsmfile.js not found.')
 	GruntfileConfig = {}
 }
 
-gruntfile = GruntfileConfig[gruntfile] || 'gruntfile.js'
-var grunttask = args[3] || 'default'
+var DefaultGruntFile = 'gruntfile.js'
+var DefaultGruntTask = 'default'
 
+if (!gruntfile) {
+	console.error('no grunt-file arg, use default [' + DefaultGruntFile + ']')
+}
+
+gruntfile = GruntfileConfig[gruntfile] || DefaultGruntFile
+
+// get grunt task
+var grunttask = args[3]
+
+if (!grunttask) {
+	console.error('no grunt-task arg, use default [' + DefaultGruntTask + ']')
+	grunttask = DefaultGruntTask
+}
+
+// call sub grunt
 require('child_process').spawn(
 	process.platform === "win32" ? 'grunt.cmd' : 'grunt', [
 	'--gruntfile', gruntfile,
@@ -41,3 +46,28 @@ require('child_process').spawn(
 ], {
 	stdio: 'inherit'
 })
+
+var _ = '\t' // text indent
+function usage() {
+	console.log([
+		'Usage:',
+		'xsm <grunt-file> <grunt-task>',
+		'',
+		'<param>',
+		'grunt-file:',
+		_ + 'sub gruntfile configed in xsmfile.js',
+		'grunt-task:',
+		_ + 'grunt task in sub gruntfile',
+		'',
+		'<Example>',
+		'xsmfile.js:',
+		_ + 'module.exports = {',
+		_ + 'order: "grunt/order/gruntfile.js"',
+		_ + '}',
+		'cmd:',
+		_ + 'xsm order uglify',
+		'',
+		'For more info, go to:',
+		'https://github.com/xsm-ue/xsm-cli#readme'
+	].join('\n'))
+}
