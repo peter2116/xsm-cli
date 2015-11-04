@@ -9,36 +9,50 @@ var DefaultGruntTask = 'default'
 var args = process.argv
 var gruntfile = args[2]
 
-if (!gruntfile || gruntfile === '--help' || gruntfile === '-h') {
-	return usage()
+/* show usage */
+
+if (gruntfile === '--help' || gruntfile === '-h') {
+	usage()
+	process.exit(1)
 }
+
+/* get grunt file config */
 
 var basedir = process.cwd()
 var xsmfile = require('path').resolve(basedir, 'xsmfile.js')
 var GruntfileConfig
 
-try {
-	GruntfileConfig = require(xsmfile)
-} catch (e) {
+if (!fs.existsSync(xsmfile)) {
 	console.error('xsmfile.js not found.')
-	GruntfileConfig = {}
+	console.log('try use "' + DefaultGruntFile + '"')
+	gruntfile = DefaultGruntFile
+} else {
+	try {
+		GruntfileConfig = require(xsmfile)
+		gruntfile = GruntfileConfig[gruntfile]
+	} catch (e) {
+		console.error('xsmfile.js is not a valid CommonJS file.')
+		console.error(e)
+		process.exit(1)
+	}
 }
 
-if (!gruntfile) {
-	console.error('no grunt-file arg, use default [' + DefaultGruntFile + ']')
+if (!fs.existsSync(gruntfile)) {
+	console.error('gruntfile not existed at:\n' + gruntfile)
+	process.exit(1)
 }
 
-gruntfile = GruntfileConfig[gruntfile] || DefaultGruntFile
+/* get grunt task config */
 
-// get grunt task
 var grunttask = args[3]
 
 if (!grunttask) {
-	console.error('no grunt-task arg, use default [' + DefaultGruntTask + ']')
+	console.error('no grunt-task arg, use default task [' + DefaultGruntTask + ']')
 	grunttask = DefaultGruntTask
 }
 
-// call sub grunt
+/* call sub grunt with specified grunt file and grunt task config */
+
 require('child_process').spawn(
 	process.platform === "win32" ? 'grunt.cmd' : 'grunt', [
 	'--gruntfile', gruntfile,

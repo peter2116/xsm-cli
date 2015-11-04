@@ -1,6 +1,6 @@
 {
   "name": "xsm-cli",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Used to spawn a 'grunt' with subfolder's gruntfile by config.",
   "main": "index.js",
   "repository": {
